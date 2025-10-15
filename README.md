@@ -5,6 +5,8 @@
 
 *Client-side mod for Quality-of-Life improvements and automation for fishing.*
 
+<img width="1913" height="731" alt="Untitled" src="https://github.com/user-attachments/assets/dd746213-6ba2-4f8f-95c0-42dd1bd128ba" />
+
 ---
 
 ## 🐟 Features
