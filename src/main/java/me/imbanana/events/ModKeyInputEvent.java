@@ -13,7 +13,7 @@ import org.lwjgl.glfw.GLFW;
 import java.awt.*;
 
 public class ModKeyInputEvent implements ClientTickEvents.EndTick {
-    private static final String KEY_CATEGORY = "key.category.betterfishing.main";
+    private static final KeyBinding.Category KEY_CATEGORY = new KeyBinding.Category(BetterFishing.idOf("main"));
 
     public static KeyBinding toggleAutoFishingKey;
 

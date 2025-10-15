@@ -21,13 +21,13 @@ public abstract class FishingBobberEntityRendererMixin extends EntityRenderer<Fi
     }
 
     @ModifyExpressionValue(
-            method = "render(Lnet/minecraft/client/render/entity/state/FishingBobberEntityState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V",
+            method = "method_72983",
             at = @At(
                     value = "CONSTANT",
                     args = "intValue=16"
             )
     )
-    private int modifyRenderSegmentCountAnInt(int original) {
+    private static int modifyRenderSegmentCountAnInt(int original) {
         return FishingLineRenderer.getSegmentCount();
     }
 
