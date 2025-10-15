@@ -1,0 +1,35 @@
+{
+  "config.betterfishing.title": "Better Fishing",
+  "config.betterfishing.category.betterfishing": "Better Fishing",
+  "config.betterfishing.option.make_sound_when_caught_a_fish": "Make sound when caught a fish?",
+  "config.betterfishing.option.open_water_detection": "Open Water Detection",
+  "config.betterfishing.option.open_water_detection.desc": "Automatically detect whether you are fishing in open water",
+  "config.betterfishing.group.auto_fishing": "Auto Fishing",
+  "config.betterfishing.option.auto_fishing.enable": "Enable",
+  "config.betterfishing.option.auto_fishing.recast_delay": "Recast Delay",
+  "config.betterfishing.option.auto_fishing.recast_delay.desc": "In ticks (20 ticks = 1 second)",
+  "config.betterfishing.option.auto_fishing.reel_delay": "Reel Delay",
+  "config.betterfishing.option.auto_fishing.reel_delay.desc": "In ticks (20 ticks = 1 second)",
+  "config.betterfishing.option.auto_fishing.show_recast_time": "Display recast delay time",
+  "config.betterfishing.option.auto_fishing.show_recast_time.desc": "Display how much time remains until the next recast when auto fishing.",
+  "config.betterfishing.option.auto_fishing.break_protection": "Break Protection",
+  "config.betterfishing.option.auto_fishing.break_protection.desc": "Automatically disable auto fishing when the fishing rod is about to break.",
+  "config.betterfishing.group.fishing_line": "Fishing Line Style",
+  "config.betterfishing.option.fishing_line.enable": "Enable",
+  "config.betterfishing.option.fishing_line.animate": "Animate",
+  "config.betterfishing.option.fishing_line.animation_speed": "Animation Speed",
+  "config.betterfishing.option.fishing_line.reverse": "Reverse Animation Direction",
+  "config.betterfishing.option.fishing_line.colors": "Fishing Line Color Gradient",
+
+  "key.category.betterfishing.main": "Better Fishing",
+  "key.betterfishing.toggle_auto_fishing": "Toggle Auto Fishing",
+
+  "event.betterfishing.auto_fishing.recast_time": "%s second(s) until recast",
+  "event.betterfishing.open_water_detection.success": "You're currently fishing in open water.",
+  "event.betterfishing.open_water_detection.fail": "You're currently NOT fishing in open water.",
+
+  "text.betterfishing.auto_fishing.enabled": "Enabled",
+  "text.betterfishing.auto_fishing.disabled": "Disabled",
+  "text.betterfishing.auto_fishing.auto_fishing": "Auto fishing",
+  "text.betterfishing.auto_fishing.disabled_fishing_rod": "Auto fishing for this fishing rod"
+}

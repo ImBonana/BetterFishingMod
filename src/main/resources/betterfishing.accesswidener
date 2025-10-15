@@ -1,0 +1,7 @@
+accessWidener v2 named
+
+accessible field net/minecraft/entity/projectile/FishingBobberEntity caughtFish Z
+accessible field net/minecraft/entity/projectile/FishingBobberEntity state Lnet/minecraft/entity/projectile/FishingBobberEntity$State;
+accessible field net/minecraft/entity/projectile/FishingBobberEntity outOfOpenWaterTicks I
+accessible method net/minecraft/entity/projectile/FishingBobberEntity isOpenOrWaterAround (Lnet/minecraft/util/math/BlockPos;)Z
+accessible class net/minecraft/entity/projectile/FishingBobberEntity$State

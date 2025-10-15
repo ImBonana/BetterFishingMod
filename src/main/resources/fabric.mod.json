@@ -1,0 +1,35 @@
+{
+	"schemaVersion": 1,
+	"id": "betterfishing",
+	"version": "${version}",
+	"name": "BetterFishing",
+	"description": "Makes fishing better :)",
+	"authors": [
+		"ImBanana"
+	],
+	"contact": {
+		"sources": "https://github.com/ImBonana/BetterFishing"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/betterfishing/icon.png",
+    "accessWidener": "betterfishing.accesswidener",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"me.imbanana.BetterFishing"
+		],
+        "modmenu": [
+            "me.imbanana.ModConfig"
+        ]
+	},
+	"mixins": [
+		"betterfishing.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=${loader_version}",
+		"minecraft": "~${minecraft_version}",
+		"java": ">=21",
+		"fabric-api": "*",
+        "yet_another_config_lib_v3": ">=${yacl_version}"
+	}
+}
