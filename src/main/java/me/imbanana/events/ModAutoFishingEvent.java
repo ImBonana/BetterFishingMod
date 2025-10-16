@@ -43,7 +43,7 @@ public class ModAutoFishingEvent implements ClientTickEvents.EndTick {
 
         FishingBobberEntity fishingBobber = client.player.fishHook;
 
-        if(fishingBobber != null && fishingBobber.caughtFish) {
+        if(fishingBobber != null && fishingBobber.caughtFish && !recast) {
             useFishingRod(player);
             recast = true;
             recastCooldown = BetterFishing.getConfig().getRecastDelay();
