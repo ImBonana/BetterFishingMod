@@ -46,6 +46,7 @@ dependencies {
 var projProperties = [
     version: project.version,
     loader_version: project.loader_version,
+    min_loader_version: min_loader_version,
     minecraft_version: project.minecraft_version,
     yacl_version: project.yacl_version
 ]
