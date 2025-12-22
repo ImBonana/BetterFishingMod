@@ -11,6 +11,7 @@ import net.minecraft.util.Formatting;
 public class ModOpenWaterDetectionEvent implements ClientTickEvents.EndTick {
     private boolean inOpenWater = true;
     private boolean alreadySendStatusMessage = false;
+    private boolean lastOpenWaterState = false;
 
     @Override
     public void onEndTick(MinecraftClient client) {
@@ -32,28 +33,30 @@ public class ModOpenWaterDetectionEvent implements ClientTickEvents.EndTick {
 
         if(fishingBobber.state != FishingBobberEntity.State.BOBBING) return;
 
-        if (isInOpenWater(fishingBobber)) {
-            if(!alreadySendStatusMessage) {
+
+        this.inOpenWater = isInOpenWater(fishingBobber);
+
+        if (!alreadySendStatusMessage || lastOpenWaterState != this.inOpenWater) {
+            if (this.inOpenWater) {
                 player.sendMessage(
                         Text.translatable("event.betterfishing.open_water_detection.success")
                                 .formatted(Formatting.AQUA),
                         true
                 );
-                alreadySendStatusMessage = true;
-            }
-        } else {
-            if(!alreadySendStatusMessage) {
+            } else {
                 player.sendMessage(
                         Text.translatable("event.betterfishing.open_water_detection.fail")
                                 .formatted(Formatting.RED),
                         true
                 );
-                alreadySendStatusMessage = true;
             }
+
+            alreadySendStatusMessage = true;
+            lastOpenWaterState = this.inOpenWater;
         }
     }
 
     private boolean isInOpenWater(FishingBobberEntity fishingBobber) {
-        return this.inOpenWater = this.inOpenWater && fishingBobber.outOfOpenWaterTicks < 10 && fishingBobber.isOpenOrWaterAround(fishingBobber.getBlockPos());
+        return fishingBobber.outOfOpenWaterTicks < 10 && fishingBobber.isOpenOrWaterAround(fishingBobber.getBlockPos());
     }
 }
