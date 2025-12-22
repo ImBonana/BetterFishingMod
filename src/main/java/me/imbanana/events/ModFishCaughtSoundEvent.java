@@ -20,7 +20,7 @@ public class ModFishCaughtSoundEvent implements ClientTickEvents.EndTick {
         if (fishingBobber == null) return;
 
         if (fishingBobber.caughtFish && soundCooldown <= 0 && BetterFishing.getConfig().shouldMakeSoundWhenCaughtAFish()) {
-            player.playSoundToPlayer(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.NEUTRAL, 0.3f,0.8f);
+            player.getEntityWorld().playSoundClient(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.NEUTRAL, 0.3f,0.8f);
         }
 
         if(soundCooldown <= 0) {

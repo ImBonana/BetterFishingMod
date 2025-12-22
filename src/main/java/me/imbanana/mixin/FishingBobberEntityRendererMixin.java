@@ -32,7 +32,7 @@ public abstract class FishingBobberEntityRendererMixin extends EntityRenderer<Fi
     }
 
     @Inject(method = "renderFishingLine", at = @At(value = "HEAD"))
-    private static void getVarsFromRenderFishingLine(float x, float y, float z, VertexConsumer buffer, MatrixStack.Entry matrices, float segmentStart, float segmentEnd, CallbackInfo ci) {
+    private static void getVarsFromRenderFishingLine(float x, float y, float z, VertexConsumer buffer, MatrixStack.Entry matrices, float segmentStart, float segmentEnd, float getMinimumLineWidth, CallbackInfo ci) {
         FishingLineRenderer.setSegmentIndex(segmentStart);
     }
 
