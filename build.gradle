@@ -1,6 +1,7 @@
 plugins {
 	id 'fabric-loom' version "${loom_version}"
 	id 'maven-publish'
+	id "com.modrinth.minotaur" version "2.+"
 }
 
 version = project.mod_version
@@ -47,7 +48,7 @@ var projProperties = [
     version: project.version,
     loader_version: project.loader_version,
     min_loader_version: project.min_loader_version,
-    minecraft_version: project.minecraft_version,
+	minecraft_version_range: project.minecraft_version_range,
     yacl_version: project.yacl_version
 ]
 
@@ -97,5 +98,21 @@ publishing {
 		// Notice: This block does NOT have the same function as the block in the top level.
 		// The repositories here will be used for publishing your artifact, not for
 		// retrieving dependencies.
+	}
+}
+
+modrinth {
+	token = System.getenv("MODRINTH_TOKEN")
+	projectId = project.modrinth_id
+	versionNumber = project.mod_version
+	versionName = project.mod_version
+	versionType = "release"
+	uploadFile = remapJar
+	gameVersions = project.minecraft_versions.toString().split(",").toList()
+	loaders = ["fabric"]
+	dependencies {
+		required.project "fabric-api"
+		required.project "modmenu"
+		optional.version "yacl", project.yacl_version
 	}
 }
