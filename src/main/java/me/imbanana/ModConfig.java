@@ -9,7 +9,7 @@ import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -123,7 +123,7 @@ public class ModConfig implements ModMenuApi {
 
     public YetAnotherConfigLib.Builder createConfigScreen(ModConfig defaults, ModConfig config, YetAnotherConfigLib.Builder builder) {
         Option<Boolean> makeSoundWhenCaughtAFishOption = Option.<Boolean>createBuilder()
-                .name(Text.translatable("config.betterfishing.option.make_sound_when_caught_a_fish"))
+                .name(Component.translatable("config.betterfishing.option.make_sound_when_caught_a_fish"))
                 .binding(
                         defaults.shouldMakeSoundWhenCaughtAFish(),
                         config::shouldMakeSoundWhenCaughtAFish,
@@ -133,8 +133,8 @@ public class ModConfig implements ModMenuApi {
                 .build();
 
         Option<Boolean> openWaterDetectionOption = Option.<Boolean>createBuilder()
-                .name(Text.translatable("config.betterfishing.option.open_water_detection"))
-                .description(OptionDescription.of(Text.translatable("config.betterfishing.option.open_water_detection.desc")))
+                .name(Component.translatable("config.betterfishing.option.open_water_detection"))
+                .description(OptionDescription.of(Component.translatable("config.betterfishing.option.open_water_detection.desc")))
                 .binding(
                         defaults.isOpenWaterDetection(),
                         config::isOpenWaterDetection,
@@ -144,8 +144,8 @@ public class ModConfig implements ModMenuApi {
                 .build();
 
         Option<Integer> recastDelayOption = Option.<Integer>createBuilder()
-                .name(Text.translatable("config.betterfishing.option.auto_fishing.recast_delay"))
-                .description(OptionDescription.of(Text.translatable("config.betterfishing.option.auto_fishing.recast_delay.desc")))
+                .name(Component.translatable("config.betterfishing.option.auto_fishing.recast_delay"))
+                .description(OptionDescription.of(Component.translatable("config.betterfishing.option.auto_fishing.recast_delay.desc")))
                 .binding(
                         defaults.getRecastDelay(),
                         config::getRecastDelay,
@@ -153,14 +153,14 @@ public class ModConfig implements ModMenuApi {
                 )
                 .controller(option -> IntegerFieldControllerBuilder.create(option)
                         .min(0)
-                        .formatValue(v -> Text.literal(String.format("%s ticks", v)))
+                        .formatValue(v -> Component.literal(String.format("%s ticks", v)))
                 )
                 .available(config.isAutoFishingEnabled())
                 .build();
 
         Option<Integer> reelDelayOption = Option.<Integer>createBuilder()
-                .name(Text.translatable("config.betterfishing.option.auto_fishing.reel_delay"))
-                .description(OptionDescription.of(Text.translatable("config.betterfishing.option.auto_fishing.reel_delay.desc")))
+                .name(Component.translatable("config.betterfishing.option.auto_fishing.reel_delay"))
+                .description(OptionDescription.of(Component.translatable("config.betterfishing.option.auto_fishing.reel_delay.desc")))
                 .binding(
                         defaults.getReelDelay(),
                         config::getReelDelay,
@@ -168,14 +168,14 @@ public class ModConfig implements ModMenuApi {
                 )
                 .controller(option -> IntegerFieldControllerBuilder.create(option)
                         .min(0)
-                        .formatValue(v -> Text.literal(String.format("%s ticks", v)))
+                        .formatValue(v -> Component.literal(String.format("%s ticks", v)))
                 )
                 .available(config.isAutoFishingEnabled())
                 .build();
 
         Option<Boolean> showRecastTimeOption = Option.<Boolean>createBuilder()
-                .name(Text.translatable("config.betterfishing.option.auto_fishing.show_recast_time"))
-                .description(OptionDescription.of(Text.translatable("config.betterfishing.option.auto_fishing.show_recast_time.desc")))
+                .name(Component.translatable("config.betterfishing.option.auto_fishing.show_recast_time"))
+                .description(OptionDescription.of(Component.translatable("config.betterfishing.option.auto_fishing.show_recast_time.desc")))
                 .binding(
                         defaults.shouldShowRecastTime(),
                         config::shouldShowRecastTime,
@@ -186,8 +186,8 @@ public class ModConfig implements ModMenuApi {
                 .build();
 
         Option<Boolean> breakProtectionOption = Option.<Boolean>createBuilder()
-                .name(Text.translatable("config.betterfishing.option.auto_fishing.break_protection"))
-                .description(OptionDescription.of(Text.translatable("config.betterfishing.option.auto_fishing.break_protection.desc")))
+                .name(Component.translatable("config.betterfishing.option.auto_fishing.break_protection"))
+                .description(OptionDescription.of(Component.translatable("config.betterfishing.option.auto_fishing.break_protection.desc")))
                 .binding(
                         defaults.getBreakProtection(),
                         config::getBreakProtection,
@@ -198,7 +198,7 @@ public class ModConfig implements ModMenuApi {
                 .build();
 
         Option<Boolean> autoFishingEnabledOption = Option.<Boolean>createBuilder()
-                .name(Text.translatable("config.betterfishing.option.auto_fishing.enable"))
+                .name(Component.translatable("config.betterfishing.option.auto_fishing.enable"))
                 .binding(
                         defaults.isAutoFishingEnabled(),
                         config::isAutoFishingEnabled,
@@ -216,7 +216,7 @@ public class ModConfig implements ModMenuApi {
                 .build();
 
         Option<Float> fishingLineAnimationSpeedOption = Option.<Float>createBuilder()
-                .name(Text.translatable("config.betterfishing.option.fishing_line.animation_speed"))
+                .name(Component.translatable("config.betterfishing.option.fishing_line.animation_speed"))
                 .binding(
                         defaults.getFishingLineAnimationSpeed(),
                         config::getFishingLineAnimationSpeed,
@@ -224,14 +224,14 @@ public class ModConfig implements ModMenuApi {
                 )
                 .controller(option -> FloatSliderControllerBuilder.create(option)
                         .range(0f, 1f)
-                        .formatValue(value -> Text.literal(String.format("%.1f", value * 100) + "%"))
+                        .formatValue(value -> Component.literal(String.format("%.1f", value * 100) + "%"))
                         .step(0.001f)
                 )
                 .available(config.isFishingLineColorEnabled() && config.shouldAnimateFishingLineColor())
                 .build();
 
         Option<Boolean> reverseAnimationDirectionOption = Option.<Boolean>createBuilder()
-                .name(Text.translatable("config.betterfishing.option.fishing_line.reverse"))
+                .name(Component.translatable("config.betterfishing.option.fishing_line.reverse"))
                 .binding(
                         defaults.shouldReverseAnimationDirection(),
                         config::shouldReverseAnimationDirection,
@@ -242,7 +242,7 @@ public class ModConfig implements ModMenuApi {
                 .build();
 
         Option<Boolean> animateFishingLineColorOption = Option.<Boolean>createBuilder()
-                .name(Text.translatable("config.betterfishing.option.fishing_line.animate"))
+                .name(Component.translatable("config.betterfishing.option.fishing_line.animate"))
                 .binding(
                         defaults.shouldAnimateFishingLineColor(),
                         config::shouldAnimateFishingLineColor,
@@ -257,7 +257,7 @@ public class ModConfig implements ModMenuApi {
                 .build();
 
         ListOption<Color> fishingLineColorsOption = ListOption.<Color>createBuilder()
-                .name(Text.translatable("config.betterfishing.option.fishing_line.colors"))
+                .name(Component.translatable("config.betterfishing.option.fishing_line.colors"))
                 .binding(
                         defaults.getFishingLineColors(),
                         config::getFishingLineColors,
@@ -271,7 +271,7 @@ public class ModConfig implements ModMenuApi {
                 .build();
 
         Option<Boolean> fishingLineColorEnabledOption = Option.<Boolean>createBuilder()
-                .name(Text.translatable("config.betterfishing.option.fishing_line.enable"))
+                .name(Component.translatable("config.betterfishing.option.fishing_line.enable"))
                 .binding(
                         defaults.isFishingLineColorEnabled(),
                         config::isFishingLineColorEnabled,
@@ -286,13 +286,13 @@ public class ModConfig implements ModMenuApi {
                 })
                 .build();
 
-        return builder.title(Text.translatable("config.betterfishing.title"))
+        return builder.title(Component.translatable("config.betterfishing.title"))
                 .category(ConfigCategory.createBuilder()
-                        .name(Text.translatable("config.betterfishing.category.betterfishing"))
+                        .name(Component.translatable("config.betterfishing.category.betterfishing"))
                         .option(makeSoundWhenCaughtAFishOption)
                         .option(openWaterDetectionOption)
                         .group(OptionGroup.createBuilder()
-                                .name(Text.translatable("config.betterfishing.group.auto_fishing"))
+                                .name(Component.translatable("config.betterfishing.group.auto_fishing"))
                                 .option(autoFishingEnabledOption)
                                 .option(recastDelayOption)
                                 .option(reelDelayOption)
@@ -303,7 +303,7 @@ public class ModConfig implements ModMenuApi {
                         .build()
                 )
                 .category(ConfigCategory.createBuilder()
-                        .name(Text.translatable("config.betterfishing.group.fishing_line"))
+                        .name(Component.translatable("config.betterfishing.group.fishing_line"))
                         .option(fishingLineColorEnabledOption)
                         .option(animateFishingLineColorOption)
                         .option(fishingLineAnimationSpeedOption)

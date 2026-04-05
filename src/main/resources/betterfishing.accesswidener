@@ -1,7 +1,7 @@
-accessWidener v2 named
+accessWidener v2 official
 
-accessible field net/minecraft/entity/projectile/FishingBobberEntity caughtFish Z
-accessible field net/minecraft/entity/projectile/FishingBobberEntity state Lnet/minecraft/entity/projectile/FishingBobberEntity$State;
-accessible field net/minecraft/entity/projectile/FishingBobberEntity outOfOpenWaterTicks I
-accessible method net/minecraft/entity/projectile/FishingBobberEntity isOpenOrWaterAround (Lnet/minecraft/util/math/BlockPos;)Z
-accessible class net/minecraft/entity/projectile/FishingBobberEntity$State
+accessible field net/minecraft/world/entity/projectile/FishingHook biting Z
+accessible field net/minecraft/world/entity/projectile/FishingHook currentState Lnet/minecraft/world/entity/projectile/FishingHook$FishHookState;
+accessible field net/minecraft/world/entity/projectile/FishingHook outOfWaterTime I
+accessible method net/minecraft/world/entity/projectile/FishingHook calculateOpenWater (Lnet/minecraft/core/BlockPos;)Z
+accessible class net/minecraft/world/entity/projectile/FishingHook$FishHookState

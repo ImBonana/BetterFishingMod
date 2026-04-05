@@ -2,27 +2,27 @@ package me.imbanana.events;
 
 import me.imbanana.BetterFishing;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.entity.projectile.FishingBobberEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Hand;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.projectile.FishingHook;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 public class ModAutoFishingEvent implements ClientTickEvents.EndTick {
     private boolean recast = false;
     private int recastCooldown = 0;
 
     @Override
-    public void onEndTick(MinecraftClient client) {
+    public void onEndTick(Minecraft client) {
         if(!BetterFishing.getConfig().isAutoFishingEnabled()) {
             recast = false;
             return;
         }
 
-        ClientPlayerEntity player = client.player;
+        LocalPlayer player = client.player;
         if (player == null) {
             recast = false;
             return;
@@ -31,19 +31,18 @@ public class ModAutoFishingEvent implements ClientTickEvents.EndTick {
         if(BetterFishing.getConfig().getBreakProtection() && !canUseActiveFishingRod(player)) {
             recast = false;
 //            BetterFishing.getConfig().disableAutoFishing();
-            client.player.sendMessage(
-                    Text.translatable("text.betterfishing.auto_fishing.disabled")
-                            .formatted(Formatting.DARK_RED)
-                            .append(Text.literal(" "))
-                            .append(Text.translatable("text.betterfishing.auto_fishing.disabled_fishing_rod").formatted(Formatting.WHITE)),
-                    true
+            client.player.sendOverlayMessage(
+                    Component.translatable("text.betterfishing.auto_fishing.disabled")
+                            .withStyle(ChatFormatting.DARK_RED)
+                            .append(Component.literal(" "))
+                            .append(Component.translatable("text.betterfishing.auto_fishing.disabled_fishing_rod").withStyle(ChatFormatting.WHITE))
             );
             return;
         }
 
-        FishingBobberEntity fishingBobber = client.player.fishHook;
+        FishingHook fishingHook = client.player.fishing;
 
-        if(fishingBobber != null && fishingBobber.caughtFish && !recast) {
+        if(fishingHook != null && fishingHook.biting && !recast) {
             useFishingRod(player);
             recast = true;
             recastCooldown = BetterFishing.getConfig().getRecastDelay();
@@ -54,29 +53,29 @@ public class ModAutoFishingEvent implements ClientTickEvents.EndTick {
             } else {
                 recastCooldown--;
                 if(BetterFishing.getConfig().shouldShowRecastTime()) {
-                    player.sendMessage(Text.translatable("event.betterfishing.auto_fishing.recast_time", String.format("%.2f", recastCooldown / 20f)), true);
+                    player.sendOverlayMessage(Component.translatable("event.betterfishing.auto_fishing.recast_time", String.format("%.2f", recastCooldown / 20f)));
                 }
             }
         }
     }
 
-    private boolean canUseActiveFishingRod(ClientPlayerEntity player) {
-        for(Hand hand : Hand.values()) {
-            ItemStack handItem = player.getStackInHand(hand);
+    private boolean canUseActiveFishingRod(LocalPlayer player) {
+        for(InteractionHand interactionHand : InteractionHand.values()) {
+            ItemStack handItem = player.getItemInHand(interactionHand);
             if(handItem.getItem() != Items.FISHING_ROD) continue;
 
-            return !handItem.isDamageable() || handItem.getMaxDamage() - handItem.getDamage() > 1;
+            return !handItem.isDamageableItem() || handItem.getMaxDamage() - handItem.getDamageValue() > 1;
         }
 
         return true;
     }
 
-    private void useFishingRod(ClientPlayerEntity player) {
-        for(Hand hand : Hand.values()) {
-            ItemStack handItem = player.getStackInHand(hand);
+    private void useFishingRod(LocalPlayer player) {
+        for(InteractionHand interactionHand : InteractionHand.values()) {
+            ItemStack handItem = player.getItemInHand(interactionHand);
             if(handItem.getItem() != Items.FISHING_ROD) continue;
 
-            MinecraftClient.getInstance().interactionManager.interactItem(player, hand);
+            Minecraft.getInstance().gameMode.useItem(player, interactionHand);
         }
     }
 }

@@ -2,25 +2,25 @@ package me.imbanana.events;
 
 import me.imbanana.BetterFishing;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.entity.projectile.FishingBobberEntity;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.projectile.FishingHook;
 
 public class ModFishCaughtSoundEvent implements ClientTickEvents.EndTick {
     private int soundCooldown = 0;
 
     @Override
-    public void onEndTick(MinecraftClient client) {
-        ClientPlayerEntity player = client.player;
+    public void onEndTick(Minecraft client) {
+        LocalPlayer player = client.player;
         if (player == null) return;
 
-        FishingBobberEntity fishingBobber = client.player.fishHook;
-        if (fishingBobber == null) return;
+        FishingHook fishingHook = client.player.fishing;
+        if (fishingHook == null) return;
 
-        if (fishingBobber.caughtFish && soundCooldown <= 0 && BetterFishing.getConfig().shouldMakeSoundWhenCaughtAFish()) {
-            player.getEntityWorld().playSoundClient(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.NEUTRAL, 0.3f,0.8f);
+        if (fishingHook.biting && soundCooldown <= 0 && BetterFishing.getConfig().shouldMakeSoundWhenCaughtAFish()) {
+            player.level().playPlayerSound(SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.NEUTRAL, 0.3f,0.8f);
         }
 
         if(soundCooldown <= 0) {

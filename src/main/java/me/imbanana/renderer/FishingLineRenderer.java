@@ -2,9 +2,8 @@ package me.imbanana.renderer;
 
 import me.imbanana.BetterFishing;
 import me.imbanana.ModConfig;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.Colors;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.Mth;
 
 import java.awt.*;
 import java.util.List;
@@ -19,7 +18,7 @@ public class FishingLineRenderer {
         float pos = (float) segmentIndex / getSegmentCount();
         float animationSpeed = config.shouldAnimateFishingLineColor() ? config.getFishingLineAnimationSpeed() : 0;
         float dir = config.shouldReverseAnimationDirection() ? -1f : 1f;
-        animationProgress = wrapOnce(animationProgress + MinecraftClient.getInstance().getRenderTickCounter().getFixedDeltaTicks() * animationSpeed * 0.015f * dir, 1f) ;
+        animationProgress = wrapOnce(animationProgress + Minecraft.getInstance().getDeltaTracker().getRealtimeDeltaTicks() * animationSpeed * 0.015f * dir, 1f) ;
 
         float delta = (pos + animationProgress) % 1.0f;
         if (delta < 0) delta += 1.0f;
@@ -44,10 +43,10 @@ public class FishingLineRenderer {
         int endG = (end >> 8) & 0xFF;
         int endB = end & 0xFF;
 
-        int finalAlpha = MathHelper.lerp(delta, startAlpha, endAlpha);
-        int finalR = MathHelper.lerp(delta, startR, endR);
-        int finalG = MathHelper.lerp(delta, startG, endG);
-        int finalB = MathHelper.lerp(delta, startB, endB);
+        int finalAlpha = Mth.lerpInt(delta, startAlpha, endAlpha);
+        int finalR = Mth.lerpInt(delta, startR, endR);
+        int finalG = Mth.lerpInt(delta, startG, endG);
+        int finalB = Mth.lerpInt(delta, startB, endB);
 
         return (finalAlpha << 24) | (finalR << 16) | (finalG << 8) | finalB;
     }

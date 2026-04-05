@@ -2,11 +2,11 @@ package me.imbanana.events;
 
 import me.imbanana.BetterFishing;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.entity.projectile.FishingBobberEntity;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.projectile.FishingHook;
 
 public class ModOpenWaterDetectionEvent implements ClientTickEvents.EndTick {
     private boolean inOpenWater = true;
@@ -14,40 +14,38 @@ public class ModOpenWaterDetectionEvent implements ClientTickEvents.EndTick {
     private boolean lastOpenWaterState = false;
 
     @Override
-    public void onEndTick(MinecraftClient client) {
+    public void onEndTick(Minecraft client) {
         if (!BetterFishing.getConfig().isOpenWaterDetection()) return;
 
-        ClientPlayerEntity player = client.player;
+        LocalPlayer player = client.player;
         if (player == null) {
             this.inOpenWater = true;
             this.alreadySendStatusMessage = false;
             return;
         }
 
-        FishingBobberEntity fishingBobber = client.player.fishHook;
-        if (fishingBobber == null) {
+        FishingHook fishingHook = client.player.fishing;
+        if (fishingHook == null) {
             this.inOpenWater = true;
             this.alreadySendStatusMessage = false;
             return;
         }
 
-        if(fishingBobber.state != FishingBobberEntity.State.BOBBING) return;
+        if(fishingHook.currentState != FishingHook.FishHookState.BOBBING) return;
 
 
-        this.inOpenWater = isInOpenWater(fishingBobber);
+        this.inOpenWater = isInOpenWater(fishingHook);
 
         if (!alreadySendStatusMessage || lastOpenWaterState != this.inOpenWater) {
             if (this.inOpenWater) {
-                player.sendMessage(
-                        Text.translatable("event.betterfishing.open_water_detection.success")
-                                .formatted(Formatting.AQUA),
-                        true
+                player.sendOverlayMessage(
+                        Component.translatable("event.betterfishing.open_water_detection.success")
+                                .withStyle(ChatFormatting.AQUA)
                 );
             } else {
-                player.sendMessage(
-                        Text.translatable("event.betterfishing.open_water_detection.fail")
-                                .formatted(Formatting.RED),
-                        true
+                player.sendOverlayMessage(
+                        Component.translatable("event.betterfishing.open_water_detection.fail")
+                                .withStyle(ChatFormatting.RED)
                 );
             }
 
@@ -56,7 +54,7 @@ public class ModOpenWaterDetectionEvent implements ClientTickEvents.EndTick {
         }
     }
 
-    private boolean isInOpenWater(FishingBobberEntity fishingBobber) {
-        return fishingBobber.outOfOpenWaterTicks < 10 && fishingBobber.isOpenOrWaterAround(fishingBobber.getBlockPos());
+    private boolean isInOpenWater(FishingHook fishingHook) {
+        return fishingHook.outOfWaterTime < 10 && fishingHook.calculateOpenWater(fishingHook.blockPosition());
     }
 }

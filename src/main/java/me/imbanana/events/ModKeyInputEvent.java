@@ -1,43 +1,40 @@
 package me.imbanana.events;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import me.imbanana.BetterFishing;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
 
-import java.awt.*;
-
 public class ModKeyInputEvent implements ClientTickEvents.EndTick {
-    private static final KeyBinding.Category KEY_CATEGORY = new KeyBinding.Category(BetterFishing.idOf("main"));
+    private static final KeyMapping.Category KEY_CATEGORY = new KeyMapping.Category(BetterFishing.idOf("main"));
 
-    public static KeyBinding toggleAutoFishingKey;
+    public static KeyMapping toggleAutoFishingKey;
 
     public static void register() {
-        toggleAutoFishingKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        toggleAutoFishingKey = KeyMappingHelper.registerKeyMapping(new KeyMapping(
                 "key.betterfishing.toggle_auto_fishing",
-                InputUtil.Type.KEYSYM,
+                InputConstants.Type.KEYSYM,
                 GLFW.GLFW_KEY_K,
                 KEY_CATEGORY
         ));
     }
 
     @Override
-    public void onEndTick(MinecraftClient client) {
-        if (toggleAutoFishingKey.wasPressed()) {
+    public void onEndTick(Minecraft client) {
+        if (toggleAutoFishingKey.consumeClick()) {
             BetterFishing.getConfig().toggleAutoFishing();
 
             if(client.player != null) {
-                client.player.sendMessage(
-                        Text.translatable("text.betterfishing.auto_fishing." + (BetterFishing.getConfig().isAutoFishingEnabled() ? "enabled" : "disabled"))
-                                .formatted(BetterFishing.getConfig().isAutoFishingEnabled() ? Formatting.GREEN : Formatting.DARK_RED)
-                                .append(Text.literal(" "))
-                                .append(Text.translatable("text.betterfishing.auto_fishing.auto_fishing").formatted(Formatting.WHITE)),
-                        true
+                client.player.sendOverlayMessage(
+                        Component.translatable("text.betterfishing.auto_fishing." + (BetterFishing.getConfig().isAutoFishingEnabled() ? "enabled" : "disabled"))
+                                .withStyle(BetterFishing.getConfig().isAutoFishingEnabled() ? ChatFormatting.GREEN : ChatFormatting.DARK_RED)
+                                .append(Component.literal(" "))
+                                .append(Component.translatable("text.betterfishing.auto_fishing.auto_fishing").withStyle(ChatFormatting.WHITE))
                 );
             }
         }

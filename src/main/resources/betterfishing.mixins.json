@@ -1,9 +1,9 @@
 {
   "required": true,
   "package": "me.imbanana.mixin",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_25",
   "client": [
-    "FishingBobberEntityRendererMixin"
+    "FishingHookRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
