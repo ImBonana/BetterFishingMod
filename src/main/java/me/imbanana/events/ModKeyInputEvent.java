@@ -8,7 +8,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import org.lwjgl.glfw.GLFW;
 
 public class ModKeyInputEvent implements ClientTickEvents.EndTick {
     private static final KeyMapping.Category KEY_CATEGORY = new KeyMapping.Category(BetterFishing.idOf("main"));
@@ -18,8 +17,8 @@ public class ModKeyInputEvent implements ClientTickEvents.EndTick {
     public static void register() {
         toggleAutoFishingKey = KeyMappingHelper.registerKeyMapping(new KeyMapping(
                 "key.betterfishing.toggle_auto_fishing",
-                InputConstants.Type.KEYSYM,
-                GLFW.GLFW_KEY_K,
+                InputConstants.Type.KEYBOARD,
+                InputConstants.KEY_K,
                 KEY_CATEGORY
         ));
     }
